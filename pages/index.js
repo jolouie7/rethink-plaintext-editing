@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import path from "path";
 import classNames from "classnames";
 
+
 import { listFiles } from "../lib/list-files";
 
 // Used below, these need to be registered
@@ -79,6 +80,10 @@ FilesTable.propTypes = {
 function Previewer({ file }) {
   const [value, setValue] = useState("");
 
+  const handleClick = () => {
+    console.log(value)
+  }
+
   useEffect(() => {
     (async () => {
       setValue(await file.text());
@@ -86,7 +91,7 @@ function Previewer({ file }) {
   }, [file]);
 
   return (
-    <div className={css.preview}>
+    <div className={css.preview} onClick={handleClick}>
       <div className={css.title}>{path.basename(file.name)}</div>
       <div className={css.content}>{value}</div>
     </div>
@@ -106,16 +111,22 @@ const REGISTERED_EDITORS = {
 function PlaintextFilesChallenge() {
   const [files, setFiles] = useState([]);
   const [activeFile, setActiveFile] = useState(null);
+  // const [editorState, setEditorState] = React.useState(() =>
+  //   EditorState.createEmpty()
+  // );
 
   useEffect(() => {
     const files = listFiles();
     setFiles(files);
   }, []);
 
+  // console.log("editor:", files[2])
+
   const write = file => {
     console.log("Writing... ", file.name);
 
     // TODO: Write the file to the `files` array
+    
   };
 
   const Editor = activeFile ? REGISTERED_EDITORS[activeFile.type] : null;
@@ -157,7 +168,15 @@ function PlaintextFilesChallenge() {
       <main className={css.editorWindow}>
         {activeFile && (
           <>
-            {Editor && <Editor file={activeFile} write={write} />}
+            {PlaintextEditor && (
+              <PlaintextEditor
+                file={activeFile}
+                write={write}
+                // editorState={editorState}
+                // onChange={setEditorState}
+                text={files[2]}
+              />
+            )}
             {!Editor && <Previewer file={activeFile} />}
           </>
         )}

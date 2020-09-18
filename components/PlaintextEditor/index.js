@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 
 import css from "./style.css";
 
-function PlaintextEditor({ file, write }) {
-  console.log(file, write);
+function PlaintextEditor({ file, write, text }) {
+  // console.log(file, write, text);
+  console.log(write)
+  const handleClick = () => {
+    console.log("CLICK ME")
+  }
   return (
-    <div className={css.editor}>
-      <h3>TODO</h3>
+    <div className={css.editor} onClick={handleClick}>
+      <h3>{file.name}</h3>
       <i>text/plain</i>
+      {/* <textarea></textarea> */}
     </div>
   );
 }
