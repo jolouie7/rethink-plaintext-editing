@@ -12,5 +12,12 @@ To run the challenge:
 Once complete, please email a link to a GitHub repo of clean, tested code to us. We will use Chrome to run it.
 
 - Rethink Engineering
-# rethink-plaintext-editing
-# rethink-plaintext-editing
+# Steps that need to be taken
+Goal: Allow the user to click on the preview to start editing the text
+Better Goal: Allow the user to edit the text inline
+1. When the user clicks on the previewer open up a textarea box and move all the contents from the previewer into the textarea
+2. Use the package [Marked](https://github.com/markedjs/marked) to convert markdown to HTML. Have whatever the user is typing appear in the preview window.
+3. Saving what the user wrote to the respective file
+    - save the content if its different from before
+    - as the contents change save it to the state (onChange)
+    - after the user clicks out of the textarea or clicks save button write the state to the respective file
