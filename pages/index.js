@@ -81,7 +81,7 @@ function Previewer({ file }) {
   const [value, setValue] = useState("");
 
   const handleClick = () => {
-    console.log(value)
+    console.log("value in previewer: ",value)
   }
 
   useEffect(() => {
@@ -111,6 +111,8 @@ const REGISTERED_EDITORS = {
 function PlaintextFilesChallenge() {
   const [files, setFiles] = useState([]);
   const [activeFile, setActiveFile] = useState(null);
+  const [targetFile, setTargetFile] = useState({})
+  const [fileText, setFileText] = useState("")
   // const [editorState, setEditorState] = React.useState(() =>
   //   EditorState.createEmpty()
   // );
@@ -122,11 +124,31 @@ function PlaintextFilesChallenge() {
 
   // console.log("editor:", files[2])
 
-  const write = file => {
+  const write = (file, text) => {
     console.log("Writing... ", file.name);
-
+    // Writing...  /plain.txt
+    console.log("Writing Content... ", text);
+    // Writing Content...  Just some text looking for an editor!!
+    console.log("files... ", files);
     // TODO: Write the file to the `files` array
-    
+
+    let myFile = files.find(i => i.name === file.name)
+    console.log("myFile: ", myFile)
+    console.log("myFile name: ", myFile.name)
+    console.log("plain: ", files[1])
+    // myFile = {...myFile, text: text}
+    // console.log("myFile After: ", myFile);
+    // setTargetFile( myFile );
+    setTargetFile(myFile)
+    setFileText(text)
+    console.log(targetFile)
+    console.log(fileText)
+    // * KEY PART: find a way to write to list-files.js and update target file(myFile)
+    // const f = () => File([text], myFile.name, {
+    //   type: myFile.type,
+    //   lastModified: new Date(),
+    // });
+    // f()
   };
 
   const Editor = activeFile ? REGISTERED_EDITORS[activeFile.type] : null;
@@ -172,9 +194,6 @@ function PlaintextFilesChallenge() {
               <PlaintextEditor
                 file={activeFile}
                 write={write}
-                // editorState={editorState}
-                // onChange={setEditorState}
-                text={files[2]}
               />
             )}
             {!Editor && <Previewer file={activeFile} />}
